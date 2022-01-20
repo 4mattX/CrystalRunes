@@ -1,6 +1,7 @@
 package com.matthew4man.crystalrunes.listeners.playerListeners;
 
 import com.matthew4man.crystalrunes.CrystalRunes;
+import com.matthew4man.crystalrunes.objects.ServerScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -16,9 +17,9 @@ public class PlayerJoin implements Listener {
 
         Player player = event.getPlayer();
 
-//        String command = "spawn " + player.getName();
-//
-//        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
+        String command = "spawn " + player.getName();
+
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
 
         // Check if player has correct persistent data
         PersistentDataContainer playerData = player.getPersistentDataContainer();
@@ -45,7 +46,7 @@ public class PlayerJoin implements Listener {
 
 
 
-//        ServerScoreboard serverScoreboard = new ServerScoreboard();
-//        serverScoreboard.create(event.getPlayer());
+        ServerScoreboard serverScoreboard = new ServerScoreboard();
+        serverScoreboard.create(event.getPlayer());
     }
 }
