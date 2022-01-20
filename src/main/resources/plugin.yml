@@ -1,0 +1,17 @@
+name: CrystalRunes
+version: ${project.version}
+main: com.matthew4man.crystalrunes.CrystalRunes
+api-version: 1.18
+depend: [ProtocolLib, WorldBorderAPI]
+authors: [4matt]
+commands:
+  menutester:
+    description: Test specified menu
+  hmtester:
+    description: Test HashMap
+  friend:
+    description: Add friends
+  unfriend:
+    description: Remove friends
+  makecrystalpublic:
+    description: Makes a Crystal a Public Server Crystal
