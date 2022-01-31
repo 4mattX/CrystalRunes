@@ -2,6 +2,7 @@ package com.matthew4man.crystalrunes.objects;
 
 import com.matthew4man.crystalrunes.CrystalRunes;
 import com.matthew4man.crystalrunes.fileConfig.CrystalsConfig;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -37,13 +38,13 @@ public class ServerScoreboard {
             livesString += ChatColor.GRAY + "❤";
         }
 
-//        Economy economy = CrystalsSMP.getEconomy();
-//        int playerBalance = (int) economy.getBalance(player) - 1;
-//        if (playerBalance < 0) {
-//            playerBalance = 0;
-//        }
+        Economy economy = CrystalRunes.getEconomy();
+        int playerBalance = (int) economy.getBalance(player);
+        if (playerBalance < 0) {
+            playerBalance = 0;
+        }
 
-        int amountCrystals = 0;
+        int amountCrystals = CrystalRunes.getAmountCrystals(player.getUniqueId().toString());
 
         Score s1 = objective.getScore(ChatColor.WHITE + "play.duplicitypvp.com");
         Score s2 = objective.getScore("  ");
@@ -52,8 +53,7 @@ public class ServerScoreboard {
         Score s5 = objective.getScore(" ");
         Score s6 = objective.getScore(livesString);
         Score s7 = objective.getScore(ChatColor.GRAY + "" + ChatColor.BOLD + ">> " + ChatColor.YELLOW + "Crystals: " + ChatColor.WHITE + amountCrystals);
-        Score s8 = objective.getScore(ChatColor.GRAY + "" + ChatColor.BOLD + ">> " + ChatColor.GOLD + "Gold: " + ChatColor.WHITE + 420);
-//        Score s8 = objective.getScore(ChatColor.GRAY + "" + ChatColor.BOLD + ">> " + ChatColor.GOLD + "Gold: " + ChatColor.WHITE + playerBalance);
+        Score s8 = objective.getScore(ChatColor.GRAY + "" + ChatColor.BOLD + ">> " + ChatColor.GOLD + "Gold: " + ChatColor.WHITE + playerBalance);
         Score s9 = objective.getScore(ChatColor.LIGHT_PURPLE + "=-=-=-=-=-=-=-=-=");
 
         s1.setScore(1);

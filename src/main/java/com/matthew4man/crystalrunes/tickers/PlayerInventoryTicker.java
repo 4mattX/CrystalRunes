@@ -4,6 +4,7 @@ import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import com.matthew4man.crystalrunes.CrystalRunes;
 import com.matthew4man.crystalrunes.objects.Crystal;
 import com.matthew4man.crystalrunes.objects.CrystalChunk;
+import com.matthew4man.crystalrunes.objects.ServerScoreboard;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -47,6 +48,10 @@ public class PlayerInventoryTicker {
                         } catch (Exception e) {
                         }
                     }
+
+                    // ScoreBoard Stuff
+                    ServerScoreboard serverScoreboard = new ServerScoreboard();
+                    serverScoreboard.create(player);
 
                     PersistentDataContainer playerData = player.getPersistentDataContainer();
                     int borderBoolean = playerData.get(new NamespacedKey(CrystalRunes.getPlugin(), "borderBoolean"), PersistentDataType.INTEGER);

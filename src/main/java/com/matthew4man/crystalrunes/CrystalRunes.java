@@ -21,6 +21,7 @@ import com.matthew4man.crystalrunes.tickers.CrystalConfigUpdater;
 import com.matthew4man.crystalrunes.tickers.CrystalParticles;
 import com.matthew4man.crystalrunes.tickers.PlayerInventoryTicker;
 import me.kodysimpson.simpapi.menu.MenuManager;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -41,7 +42,9 @@ public final class CrystalRunes extends JavaPlugin {
     private static HashMap<String, List<CrystalChunk>> chunkMap = new HashMap<>();
     private static HashMap<String, List<String>> friendMap = new HashMap<>();
 
+    // API Stuff
     private static WorldBorderApi worldBorderApi = BorderAPI.getApi();
+    private static Economy economy = null;
 
     @Override
     public void onEnable() {
@@ -55,6 +58,7 @@ public final class CrystalRunes extends JavaPlugin {
         loadTickers();
         loadWorldBorderAPI();
         copyConfigToServer();
+        setupEconomy();
     }
 
     @Override
@@ -101,6 +105,8 @@ public final class CrystalRunes extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CobbleGenerator(), this);
         getServer().getPluginManager().registerEvents(new FurnaceSpeed(), this);
         getServer().getPluginManager().registerEvents(new DoubleJump(), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeath(), this);
+        getServer().getPluginManager().registerEvents(new PlayerConsumeSoul(), this);
     }
 
     private void loadConfig() {
@@ -288,6 +294,18 @@ public final class CrystalRunes extends JavaPlugin {
 
         CrystalConfigUpdater crystalConfigUpdater = new CrystalConfigUpdater();
         crystalConfigUpdater.start();
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
     }
 
     public static void addFriend(String playerUUID, String friendUUID) {
@@ -494,6 +512,22 @@ public final class CrystalRunes extends JavaPlugin {
 
     }
 
+    public static int getAmountCrystals(String playerUUID) {
+
+        int amount = 0;
+
+        for (List<Crystal> crystalList : crystalMap.values()) {
+
+            for (Crystal crystal : crystalList) {
+                if (crystal.getOwnerUUID().equals(playerUUID)) {
+                    amount++;
+                }
+            }
+        }
+
+        return amount;
+    }
+
     public static void deleteCrystal(String playerUUID, String crystalUUID) {
 
         ListIterator<Crystal> iterator = crystalMap.get(playerUUID).listIterator();
@@ -536,6 +570,10 @@ public final class CrystalRunes extends JavaPlugin {
 
     public static Plugin getPlugin() {
         return plugin;
+    }
+
+    public static Economy getEconomy() {
+        return economy;
     }
 
 }
